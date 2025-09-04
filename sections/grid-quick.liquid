@@ -91,98 +91,34 @@
       }
     }
 
-    /* Updated quick view button styles */
     .product-overlay {
       position: absolute;
-      top: var(--button-top, 15px);
-      right: var(--button-right, 15px);
+      top: 15px;
+      right: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .quick-view-btn {
-     
-      border: var(--button-border, none);
-      border-radius: var(--button-radius, 50%);
+      background: transparent;
+      border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
-      padding: var(--button-padding, 8px);
-      width: var(--button-size, 40px);
-      height: var(--button-size, 40px);
+      transition: transform 0.2s ease;
+      padding: 5px;
     }
 
+    .quick-view-btn:hover {
+      transform: scale(1.1);
+    }
 
     .quick-view-btn img {
-      width: var(--icon-size, 20px);
-      height: var(--icon-size, 20px);
-      filter: var(--icon-filter, none);
-      transition: filter 0.3s ease;
+      width: 24px;
+      height: 24px;
     }
-
-    /* Product 1 - Classic white button with dark icon */
-    .product-item:nth-child(1) {
-      --button-top: 20px;
-      --button-right: 20px;
-    }
-
-    /* Product 2 - Glassmorphism effect */
-    .product-item:nth-child(2) {
-      --button-top: 15px;
-      --button-right: 15px;
-    }
-
-    /* Product 3 - Dark minimalist button */
-    .product-item:nth-child(3) {
-      --button-top: 20px;
-      --button-right: 20px;
-    }
-
-    /* Product 4 - Leather-inspired earth tone */
-    .product-item:nth-child(4) {
-      --button-top: 30px;
-      --button-right: 30px;
-    }
-
-    /* Product 5 - School colors inspired */
-    .product-item:nth-child(5) {
-      --button-top: 25px;
-      --button-right: 25px;
-    }
-
-    /* Product 6 - Trendy gradient glassmorphism */
-    .product-item:nth-child(6) {
-      --button-top: 20px;
-      --button-right: 20px;
-    }
-
-
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .product-item:nth-child(n) {
-        --button-size: 35px;
-        --icon-size: 18px;
-        --button-padding: 6px;
-        --button-top: 12px;
-        --button-right: 12px;
-      }
-      
-      /* Adjust specific products for mobile */
-      .product-item:nth-child(4) {
-        --button-top: 20px;
-        --button-right: 20px;
-        --button-size: 38px;
-      }
-      
-      .product-item:nth-child(5) {
-        --button-top: 15px;
-        --button-right: 15px;
-      }
-    }
-
 
     /* Quick View Modal */
     .quick-view-modal {
@@ -370,8 +306,8 @@
             loading="lazy"
           >
           <div class="product-overlay">
-            <button class="quick-view-btn" onclick="openQuickView({{ product.id }})" aria-label="Quick view {{ product.title }}">
-              <img src="{{ 'openmodal.svg' | asset_url }}" alt="" width="20" height="20">
+            <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
+              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
             </button>
           </div>
         </div>
