@@ -92,7 +92,21 @@
     }
 
     .product-overlay {
-      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-item:hover .product-overlay {
+      opacity: 1;
     }
 
     .quick-view-btn {
@@ -305,7 +319,10 @@
           >
           <div class="product-overlay">
             <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Open quick view">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
             </button>
           </div>
         </div>
