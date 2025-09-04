@@ -362,10 +362,7 @@
           >
           <div class="product-overlay">
             <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
             </button>
           </div>
         </div>
@@ -377,8 +374,8 @@
   <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-content">
       <div class="modal-header">
-       <img id="modalImage" src="" alt="" class="modal-product-image" width="500" height="300">
-        <button class="close-modal" onclick="closeQuickView()">×</button>
+       <img id="modalImage"  class="modal-product-image" width="500" height="300">
+        <button class="close-modal" onclick="closeQuickView()">X</button>
       </div>
       <div class="modal-body">
         <h2 id="modalTitle" class="modal-product-title"></h2>
