@@ -418,7 +418,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     // Product data storage
     const productData = {};
     
@@ -458,21 +458,115 @@
     let currentProduct = null;
     let selectedVariant = null;
 
-    // Color mapping for variant color dots
+    // Enhanced color mapping with dynamic detection
     const colorMap = {
+      // Basic colors
       'Black': '#000000',
       'White': '#FFFFFF',
       'Blue': '#0066CC',
       'Red': '#CC0000',
       'Green': '#00CC00',
-      'Yellow': '#CCCC00',
+      'Yellow': '#FFFF00',
       'Purple': '#6600CC',
       'Pink': '#FF69B4',
       'Orange': '#FF6600',
       'Brown': '#8B4513',
       'Gray': '#808080',
-      'Grey': '#808080'
+      'Grey': '#808080',
+      
+      // Extended color variations
+      'Navy': '#000080',
+      'Light Blue': '#87CEEB',
+      'Dark Blue': '#00008B',
+      'Sky Blue': '#87CEEB',
+      'Royal Blue': '#4169E1',
+      
+      'Light Green': '#90EE90',
+      'Dark Green': '#006400',
+      'Forest Green': '#228B22',
+      'Olive': '#808000',
+      'Lime': '#00FF00',
+      
+      'Light Gray': '#D3D3D3',
+      'Dark Gray': '#A9A9A9',
+      'Silver': '#C0C0C0',
+      'Charcoal': '#36454F',
+      'Slate': '#708090',
+      
+      'Burgundy': '#800020',
+      'Maroon': '#800000',
+      'Crimson': '#DC143C',
+      'Rose': '#FF007F',
+      'Coral': '#FF7F50',
+      
+      'Beige': '#F5F5DC',
+      'Cream': '#FFFDD0',
+      'Ivory': '#FFFFF0',
+      'Tan': '#D2B48C',
+      'Khaki': '#F0E68C',
+      
+      'Gold': '#FFD700',
+      'Bronze': '#CD7F32',
+      'Copper': '#B87333',
+      
+      'Lavender': '#E6E6FA',
+      'Violet': '#EE82EE',
+      'Indigo': '#4B0082',
+      'Magenta': '#FF00FF',
+      
+      'Turquoise': '#40E0D0',
+      'Teal': '#008080',
+      'Cyan': '#00FFFF',
+      'Mint': '#98FB98',
+      
+      'Peach': '#FFCBA4',
+      'Salmon': '#FA8072',
+      'Mustard': '#FFDB58',
+      'Rust': '#B7410E'
     };
+
+    // Dynamic color detection function
+    function getVariantColor(colorValue) {
+      // First try exact match from colorMap
+      if (colorMap[colorValue]) {
+        return colorMap[colorValue];
+      }
+      
+      // Try case-insensitive match
+      const exactMatch = Object.keys(colorMap).find(
+        key => key.toLowerCase() === colorValue.toLowerCase()
+      );
+      if (exactMatch) {
+        return colorMap[exactMatch];
+      }
+      
+      // Try partial match (for compound color names like "Light Blue Denim")
+      const partialMatch = Object.keys(colorMap).find(
+        key => colorValue.toLowerCase().includes(key.toLowerCase()) || 
+               key.toLowerCase().includes(colorValue.toLowerCase())
+      );
+      if (partialMatch) {
+        return colorMap[partialMatch];
+      }
+      
+      // Generate color based on string hash (fallback for unknown colors)
+      return generateColorFromString(colorValue);
+    }
+
+    // Generate a color based on string hash for unknown color names
+    function generateColorFromString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      
+      // Convert to RGB while avoiding too light colors
+      const r = Math.max(50, (hash & 0xFF0000) >> 16);
+      const g = Math.max(50, (hash & 0x00FF00) >> 8);
+      const b = Math.max(50, hash & 0x0000FF);
+      
+      return `rgb(${r}, ${g}, ${b})`;
+    }
 
     function openQuickView(productId) {
       currentProduct = productData[productId];
@@ -514,13 +608,34 @@
       }
     }
 
+    // Updated buildVariantOptions with color first, size last, and dynamic colors
     function buildVariantOptions() {
       const container = document.getElementById('variantOptions');
       container.innerHTML = '';
 
       if (!currentProduct.options || currentProduct.options.length === 0) return;
 
-      currentProduct.options.forEach((option, index) => {
+      // Sort options: Color first, Size last, others in between
+      const sortedOptions = [...currentProduct.options].sort((a, b) => {
+        const aName = a.name.toLowerCase();
+        const bName = b.name.toLowerCase();
+        
+        // Color should come first
+        if (aName === 'color' || aName === 'colour') return -1;
+        if (bName === 'color' || bName === 'colour') return 1;
+        
+        // Size should come last
+        if (aName === 'size') return 1;
+        if (bName === 'size') return -1;
+        
+        // Keep original order for other options
+        return a.position - b.position;
+      });
+
+      sortedOptions.forEach((option, sortedIndex) => {
+        // Find the original index for this option
+        const originalIndex = currentProduct.options.findIndex(opt => opt.name === option.name);
+        
         const variantGroup = document.createElement('div');
         variantGroup.className = 'variant-group';
         
@@ -533,7 +648,7 @@
           // Create dropdown for size
           const select = document.createElement('select');
           select.className = 'size-dropdown';
-          select.addEventListener('change', (e) => updateVariant(index, e.target.value));
+          select.addEventListener('change', (e) => updateVariant(originalIndex, e.target.value));
           
           const defaultOption = document.createElement('option');
           defaultOption.value = '';
@@ -558,14 +673,23 @@
             button.type = 'button';
             button.className = 'variant-option';
             
-            // Add color dot if this is a color option
+            // Add color dot if this is a color option with dynamic color detection
             if (option.name.toLowerCase() === 'color' || option.name.toLowerCase() === 'colour') {
               const colorDot = document.createElement('span');
               colorDot.className = 'variant-color-dot';
-              colorDot.style.backgroundColor = colorMap[value] || '#ccc';
-              if (value.toLowerCase() === 'white') {
+              
+              // Use dynamic color detection
+              const detectedColor = getVariantColor(value);
+              colorDot.style.backgroundColor = detectedColor;
+              
+              // Add border for light colors
+              if (value.toLowerCase() === 'white' || 
+                  value.toLowerCase() === 'cream' || 
+                  value.toLowerCase() === 'ivory' ||
+                  value.toLowerCase() === 'beige') {
                 colorDot.style.border = '1px solid #ddd';
               }
+              
               button.appendChild(colorDot);
             }
             
@@ -580,7 +704,7 @@
               });
               // Add selected class to clicked button
               button.classList.add('selected');
-              updateVariant(index, value);
+              updateVariant(originalIndex, value);
             });
             
             // Select first option by default
