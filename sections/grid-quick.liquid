@@ -134,96 +134,38 @@
     .product-item:nth-child(1) {
       --button-top: 20px;
       --button-right: 20px;
-      --button-bg: rgba(255, 255, 255, 0.95);
-      --button-hover-bg: #ffffff;
-      --icon-filter: invert(1);
-      --button-shadow: 0 2px 15px rgba(0,0,0,0.2);
     }
 
     /* Product 2 - Glassmorphism effect */
     .product-item:nth-child(2) {
       --button-top: 15px;
       --button-right: 15px;
-      --button-bg: rgba(255, 255, 255, 0.2);
-      --button-blur: blur(10px);
-      --button-border: 1px solid rgba(255, 255, 255, 0.3);
-      --button-hover-bg: rgba(255, 255, 255, 0.3);
-      --button-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
     }
 
     /* Product 3 - Dark minimalist button */
     .product-item:nth-child(3) {
       --button-top: 20px;
       --button-right: 20px;
-      --button-bg: rgba(0, 0, 0, 0.8);
-      --button-hover-bg: rgba(0, 0, 0, 0.9);
-      --icon-filter: invert(1);
-      --button-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     /* Product 4 - Leather-inspired earth tone */
     .product-item:nth-child(4) {
       --button-top: 30px;
       --button-right: 30px;
-      --button-bg: rgba(139, 89, 42, 0.9);
-      --button-hover-bg: rgba(139, 89, 42, 1);
-      --icon-filter: invert(1);
-      --button-size: 45px;
-      --icon-size: 22px;
     }
 
     /* Product 5 - School colors inspired */
     .product-item:nth-child(5) {
       --button-top: 25px;
       --button-right: 25px;
-      --button-bg: rgba(25, 55, 109, 0.9);
-      --button-hover-bg: rgba(25, 55, 109, 1);
-      --icon-filter: invert(1);
-      --button-shadow: 0 3px 15px rgba(25, 55, 109, 0.4);
     }
 
     /* Product 6 - Trendy gradient glassmorphism */
     .product-item:nth-child(6) {
       --button-top: 20px;
       --button-right: 20px;
-      --button-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
-      --button-blur: blur(15px);
-      --button-border: 1px solid rgba(255, 255, 255, 0.2);
-      --button-hover-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.2) 100%);
-      --button-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
-    /* Product 7 - Neon accent */
-    .product-item:nth-child(7) {
-      --button-top: 18px;
-      --button-right: 18px;
-      --button-bg: rgba(0, 255, 157, 0.9);
-      --button-hover-bg: rgba(0, 255, 157, 1);
-      --button-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
-      --button-hover-shadow: 0 0 30px rgba(0, 255, 157, 0.7);
-      --icon-filter: invert(1);
-    }
-
-    /* Product 8 - Sunset gradient */
-    .product-item:nth-child(8) {
-      --button-top: 22px;
-      --button-right: 22px;
-      --button-bg: linear-gradient(45deg, rgba(255, 94, 77, 0.9) 0%, rgba(255, 154, 0, 0.9) 100%);
-      --button-hover-bg: linear-gradient(45deg, rgba(255, 94, 77, 1) 0%, rgba(255, 154, 0, 1) 100%);
-      --icon-filter: invert(1);
-      --button-shadow: 0 4px 15px rgba(255, 124, 77, 0.4);
-    }
-
-    /* Product 9 - Purple luxury */
-    .product-item:nth-child(9) {
-      --button-top: 25px;
-      --button-right: 25px;
-      --button-bg: rgba(138, 43, 226, 0.9);
-      --button-hover-bg: rgba(138, 43, 226, 1);
-      --icon-filter: invert(1);
-      --button-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
-      --button-size: 42px;
-    }
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
@@ -248,35 +190,6 @@
       }
     }
 
-    /* Hover animations for specific products */
-    .product-item:nth-child(2) .quick-view-btn:hover {
-      --button-hover-transform: scale(1.05) rotate(5deg);
-    }
-
-    .product-item:nth-child(6) .quick-view-btn:hover {
-      --button-hover-transform: scale(1.1) rotate(-5deg);
-    }
-
-    .product-item:nth-child(7) .quick-view-btn:hover {
-      --button-hover-transform: scale(1.15);
-      animation: pulse-neon 0.5s ease-in-out;
-    }
-
-    @keyframes pulse-neon {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(0, 255, 157, 0.8); }
-    }
-
-    /* Additional hover effects */
-    .product-item:nth-child(8) .quick-view-btn:hover {
-      --button-hover-transform: scale(1.1);
-      animation: sunset-glow 0.6s ease-in-out;
-    }
-
-    @keyframes sunset-glow {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.2); }
-    }
 
     /* Quick View Modal */
     .quick-view-modal {
