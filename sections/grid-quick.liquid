@@ -34,8 +34,6 @@
       color: #666;
       margin: 0;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
       line-height: 1.6;
     }
 
@@ -63,7 +61,7 @@
     @media (max-width: 768px) {
       .product-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 4px;
+        gap: 15px;
       }
     }
 
@@ -71,13 +69,9 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      {% comment %} transition: transform 0.3s ease; {% endcomment %}
       aspect-ratio: 1 / 1;
+      border-radius: 8px;
     }
-
-    {% comment %} .product-item:hover {
-      transform: translateY(-5px);
-    } {% endcomment %}
 
     .product-image {
       width: 100%;
@@ -97,23 +91,27 @@
     }
 
     .quick-view-btn {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.9);
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.2s ease;
-      padding: 5px;
+      padding: 8px;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
     }
 
     .quick-view-btn:hover {
       transform: scale(1.1);
+      background: white;
     }
 
     .quick-view-btn img {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
 
     /* Quick View Modal */
@@ -124,10 +122,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 9999;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     .quick-view-modal.active {
@@ -136,12 +136,13 @@
 
     .modal-content {
       background: white;
-      border-radius: 12px;
-      max-width: 500px;
-      width: 90%;
+      border-radius: 0;
+      max-width: 400px;
+      width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     .modal-header {
@@ -151,9 +152,9 @@
 
     .modal-product-image {
       width: 100%;
-      height: 300px;
+      height: 400px;
       object-fit: cover;
-      border-radius: 12px 12px 0 0;
+      display: block;
     }
 
     .close-modal {
@@ -162,38 +163,50 @@
       right: 15px;
       background: rgba(255, 255, 255, 0.9);
       border: none;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
+      width: 30px;
+      height: 30px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
-    }
-
-    .modal-body {
-      padding: 25px;
-    }
-
-    .modal-product-title {
-      font-size: 24px;
       font-weight: bold;
-      margin: 0 0 10px 0;
       color: #333;
     }
 
+    .close-modal:hover {
+      background: white;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-product-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0 0 8px 0;
+      color: #333;
+      line-height: 1.3;
+    }
+
     .modal-product-price {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 600;
       color: #000;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .modal-product-description {
       color: #666;
-      line-height: 1.6;
-      margin-bottom: 25px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .variant-group {
@@ -201,46 +214,73 @@
     }
 
     .variant-label {
-      font-weight: 600;
-      margin-bottom: 10px;
+      font-weight: 500;
+      margin-bottom: 8px;
       display: block;
       color: #333;
+      font-size: 14px;
     }
 
     .variant-options {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid #ddd;
     }
 
     .variant-option {
-      padding: 8px 16px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
+      padding: 12px 16px;
+      border: none;
       background: white;
       cursor: pointer;
       transition: all 0.2s ease;
       font-size: 14px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .variant-option:not(:last-child) {
+      border-right: 1px solid #ddd;
     }
 
     .variant-option:hover {
-      border-color: #333;
+      background: #f5f5f5;
     }
 
     .variant-option.selected {
-      background: #333;
+      background: #000;
       color: white;
-      border-color: #333;
+    }
+
+    .variant-color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid #ddd;
+    }
+
+    .variant-option.selected .variant-color-dot {
+      border-color: white;
     }
 
     .size-dropdown {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      font-size: 14px;
       background: white;
       cursor: pointer;
+      appearance: none;
+      background-image: url('{{ "dropdown-arrow.svg" | asset_url }}');
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 40px;
     }
 
     .size-dropdown:focus {
@@ -248,21 +288,25 @@
       border-color: #333;
     }
 
+    .size-dropdown option {
+      padding: 8px;
+    }
+
     .add-to-cart-btn {
       width: 100%;
       background: #000;
       color: white;
       border: none;
-      padding: 15px;
-      font-size: 16px;
+      padding: 14px 24px;
+      font-size: 14px;
       font-weight: 600;
-      border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease;
-      margin-top: 20px;
+      margin-top: 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      letter-spacing: 0.5px;
     }
 
     .add-to-cart-btn:hover {
@@ -277,6 +321,21 @@
     .loading {
       opacity: 0.7;
       cursor: wait;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content {
+        max-width: 95%;
+        max-height: 95vh;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+      
+      .modal-product-image {
+        height: 300px;
+      }
     }
   </style>
 
@@ -303,7 +362,10 @@
           >
           <div class="product-overlay">
             <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
         </div>
@@ -315,7 +377,7 @@
   <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <img id="modalImage" src="" alt="" class="modal-product-image" width="500" height="300">
+        <img id="modalImage" src="" alt="" class="modal-product-image">
         <button class="close-modal" onclick="closeQuickView()">×</button>
       </div>
       <div class="modal-body">
@@ -376,6 +438,22 @@
     let currentProduct = null;
     let selectedVariant = null;
 
+    // Color mapping for variant color dots
+    const colorMap = {
+      'Black': '#000000',
+      'White': '#FFFFFF',
+      'Blue': '#0066CC',
+      'Red': '#CC0000',
+      'Green': '#00CC00',
+      'Yellow': '#CCCC00',
+      'Purple': '#6600CC',
+      'Pink': '#FF69B4',
+      'Orange': '#FF6600',
+      'Brown': '#8B4513',
+      'Gray': '#808080',
+      'Grey': '#808080'
+    };
+
     function openQuickView(productId) {
       currentProduct = productData[productId];
       if (!currentProduct) return;
@@ -384,8 +462,7 @@
       const modalImage = document.getElementById('modalImage');
       modalImage.src = currentProduct.image;
       modalImage.alt = currentProduct.title;
-      modalImage.setAttribute('width', '500');
-      modalImage.setAttribute('height', '500');
+      
       document.getElementById('modalTitle').textContent = currentProduct.title;
       document.getElementById('modalDescription').textContent = currentProduct.description;
       
@@ -452,7 +529,7 @@
           
           variantGroup.appendChild(select);
         } else {
-          // Create buttons for other options
+          // Create button grid for other options (like color)
           const optionsContainer = document.createElement('div');
           optionsContainer.className = 'variant-options';
           
@@ -460,7 +537,22 @@
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'variant-option';
-            button.textContent = value;
+            
+            // Add color dot if this is a color option
+            if (option.name.toLowerCase() === 'color' || option.name.toLowerCase() === 'colour') {
+              const colorDot = document.createElement('span');
+              colorDot.className = 'variant-color-dot';
+              colorDot.style.backgroundColor = colorMap[value] || '#ccc';
+              if (value.toLowerCase() === 'white') {
+                colorDot.style.border = '1px solid #ddd';
+              }
+              button.appendChild(colorDot);
+            }
+            
+            const textSpan = document.createElement('span');
+            textSpan.textContent = value;
+            button.appendChild(textSpan);
+            
             button.addEventListener('click', () => {
               // Remove selected class from siblings
               optionsContainer.querySelectorAll('.variant-option').forEach(btn => {
@@ -497,7 +589,7 @@
           selections[index] = select.value;
         } else {
           const selected = document.querySelector(`#variantOptions .variant-group:nth-child(${index + 1}) .variant-option.selected`);
-          selections[index] = selected ? selected.textContent : option.values[0];
+          selections[index] = selected ? selected.textContent.trim() : option.values[0];
         }
       });
 
