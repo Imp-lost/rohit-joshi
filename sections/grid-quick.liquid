@@ -1,5 +1,5 @@
 {% comment %}
-  Product Grid Section with Quick View
+  Product Grid Section with Quick View - 6 Products with Static Buttons
 {% endcomment %}
 
 <div class="product-grid-section" data-section-id="{{ section.id }}">
@@ -7,7 +7,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Lustria:wght@400&display=swap');
 
     .product-grid-container {
-      max-width: 1200x;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -93,31 +93,88 @@
 
     .product-overlay {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: var(--button-top, 15px);
+      right: var(--button-right, 15px);
+      left: var(--button-left, auto);
+      bottom: var(--button-bottom, auto);
       display: flex;
       align-items: center;
       justify-content: center;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    /* Individual positioning for each product */
+    .product-item:nth-child(1) .product-overlay {
+      --button-top: {{ section.settings.btn_1_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_1_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_1_left }}px;
+      --button-bottom: {{ section.settings.btn_1_bottom }}px;
+    }
+
+    .product-item:nth-child(2) .product-overlay {
+      --button-top: {{ section.settings.btn_2_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_2_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_2_left }}px;
+      --button-bottom: {{ section.settings.btn_2_bottom }}px;
+    }
+
+    .product-item:nth-child(3) .product-overlay {
+      --button-top: {{ section.settings.btn_3_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_3_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_3_left }}px;
+      --button-bottom: {{ section.settings.btn_3_bottom }}px;
+    }
+
+    .product-item:nth-child(4) .product-overlay {
+      --button-top: {{ section.settings.btn_4_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_4_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_4_left }}px;
+      --button-bottom: {{ section.settings.btn_4_bottom }}px;
+    }
+
+    .product-item:nth-child(5) .product-overlay {
+      --button-top: {{ section.settings.btn_5_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_5_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_5_left }}px;
+      --button-bottom: {{ section.settings.btn_5_bottom }}px;
+    }
+
+    .product-item:nth-child(6) .product-overlay {
+      --button-top: {{ section.settings.btn_6_top | default: 15 }}px;
+      --button-right: {{ section.settings.btn_6_right | default: 15 }}px;
+      --button-left: {{ section.settings.btn_6_left }}px;
+      --button-bottom: {{ section.settings.btn_6_bottom }}px;
     }
 
     .quick-view-btn {
-      background: transparent;
-      border: none;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #333;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.2s ease;
-      padding: 5px;
+      transition: all 0.3s ease;
+      padding: 8px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .quick-view-btn:hover {
+      background: #333;
       transform: scale(1.1);
     }
 
+    .quick-view-btn:hover img {
+      filter: invert(1);
+    }
+
     .quick-view-btn img {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
+      transition: filter 0.3s ease;
     }
 
     /* Quick View Modal */
@@ -295,7 +352,7 @@
     {% endif %}
     
     <div class="product-grid">
-      {% for product in section.settings.collection.products limit: 9 %}
+      {% for product in section.settings.collection.products limit: 6 %}
         <div class="product-item" data-product-id="{{ product.id }}">
           <img 
             src="{{ product.featured_image | image_url: width: 400 }}" 
@@ -307,7 +364,7 @@
           >
           <div class="product-overlay">
             <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
+              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="20" height="20">
             </button>
           </div>
         </div>
@@ -344,7 +401,7 @@
     // Product data storage
     const productData = {};
     
-    {% for product in section.settings.collection.products limit: 9 %}
+    {% for product in section.settings.collection.products limit: 6 %}
       productData[{{ product.id }}] = {
         id: {{ product.id }},
         title: {{ product.title | json }},
@@ -654,11 +711,187 @@
       "id": "collection",
       "label": "Collection",
       "info": "Select the collection to display products from"
+    },
+    {
+      "type": "header",
+      "content": "Quick View Button Positions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adjust the position of each quick view button. Leave blank to use default position (top-right)."
+    },
+    {
+      "type": "header",
+      "content": "Product 1 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_1_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_1_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_1_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_1_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
+    },
+    {
+      "type": "header",
+      "content": "Product 2 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_2_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_2_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_2_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_2_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
+    },
+    {
+      "type": "header",
+      "content": "Product 3 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_3_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_3_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_3_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_3_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
+    },
+    {
+      "type": "header",
+      "content": "Product 4 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_4_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_4_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_4_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_4_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
+    },
+    {
+      "type": "header",
+      "content": "Product 5 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_5_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_5_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_5_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_5_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
+    },
+    {
+      "type": "header",
+      "content": "Product 6 Button Position"
+    },
+    {
+      "type": "number",
+      "id": "btn_6_top",
+      "label": "Top (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_6_right",
+      "label": "Right (pixels)",
+      "default": 15
+    },
+    {
+      "type": "number",
+      "id": "btn_6_left",
+      "label": "Left (pixels)",
+      "info": "Leave blank to use right positioning"
+    },
+    {
+      "type": "number",
+      "id": "btn_6_bottom",
+      "label": "Bottom (pixels)",
+      "info": "Leave blank to use top positioning"
     }
   ],
   "presets": [
     {
-      "name": "Product Grid with Quick View",
+      "name": "Product Grid with Quick View (6 Products)",
       "settings": {
         "heading": "Featured Products",
         "subheading": "Discover our curated selection of premium products"
