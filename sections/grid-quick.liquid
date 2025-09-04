@@ -126,10 +126,9 @@
       transform: scale(1.1);
     }
 
-    .quick-view-btn svg {
+    .quick-view-btn img {
       width: 24px;
       height: 24px;
-      stroke: #333;
     }
 
     /* Quick View Modal */
@@ -319,10 +318,7 @@
           >
           <div class="product-overlay">
             <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
+              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
             </button>
           </div>
         </div>
