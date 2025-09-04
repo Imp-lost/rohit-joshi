@@ -91,6 +91,7 @@
     }
 
     .quick-view-btn {
+      background: rgba(255, 255, 255, 0.9);
       border: none;
       cursor: pointer;
       display: flex;
@@ -103,10 +104,10 @@
       height: 36px;
     }
 
-    {% comment %} .quick-view-btn:hover {
+    .quick-view-btn:hover {
       transform: scale(1.1);
       background: white;
-    } {% endcomment %}
+    }
 
     .quick-view-btn img {
       width: 20px;
@@ -373,8 +374,10 @@
   <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-content">
       <div class="modal-header">
-       <img id="modalImage"  class="modal-product-image" width="500" height="300">
-        <button class="close-modal" onclick="closeQuickView()">×</button>
+        <img id="modalImage" src="" alt="" class="modal-product-image">
+        <button class="close-modal" onclick="closeQuickView()">
+          <img src="{{ 'openmodal.svg' | asset_url }}" alt="Close" width="18" height="18">
+        </button>
       </div>
       <div class="modal-body">
         <h2 id="modalTitle" class="modal-product-title"></h2>
