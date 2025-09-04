@@ -1,14 +1,13 @@
 {% comment %}
-  Product Grid Section with Quick View - Fixed Version
+  Product Grid Section with Quick View
 {% endcomment %}
 
 <div class="product-grid-section" data-section-id="{{ section.id }}">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lustria:wght@400&display=swap');
 
-    .product-grid-section {
-      width: 100%;
-      max-width: 1200px;
+    .product-grid-container {
+      max-width: 1x;
       margin: 0 auto;
       padding: 20px;
     }
@@ -35,7 +34,23 @@
       color: #666;
       margin: 0;
       max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
       line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .heading-text {
+        font-size: 28px;
+      }
+      
+      .subheading-text {
+        font-size: 1rem;
+      }
+      
+      .section-heading {
+        margin-bottom: 30px;
+      }
     }
 
     .product-grid {
@@ -43,6 +58,13 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
     }
 
     .product-item {
@@ -56,21 +78,17 @@
       transform: translateY(-5px);
     }
 
-    .product-image-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 100%; /* 1:1 Aspect Ratio */
-      overflow: hidden;
-    }
-
     .product-image {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
+      height: 300px;
       object-fit: cover;
       display: block;
+    }
+
+    @media (max-width: 768px) {
+      .product-image {
+        height: 200px;
+      }
     }
 
     .product-overlay {
@@ -80,7 +98,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2;
     }
 
     .quick-view-btn {
@@ -157,7 +174,6 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
-      z-index: 3;
     }
 
     .modal-body {
@@ -266,83 +282,44 @@
       opacity: 0.7;
       cursor: wait;
     }
-
-    /* Single responsive breakpoint for mobile */
-    @media (max-width: 768px) {
-      .product-grid-section {
-        padding: 15px;
-      }
-      
-      .heading-text {
-        font-size: 28px;
-      }
-      
-      .subheading-text {
-        font-size: 1rem;
-      }
-      
-      .section-heading {
-        margin-bottom: 30px;
-      }
-      
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
-      
-      .modal-content {
-        max-width: 95%;
-        margin: 10px;
-      }
-      
-      .modal-body {
-        padding: 20px;
-      }
-      
-      .modal-product-title {
-        font-size: 20px;
-      }
-    }
   </style>
 
-  {% if section.settings.heading != blank %}
-    <div class="section-heading">
-      <h2 class="heading-text">{{ section.settings.heading }}</h2>
-      {% if section.settings.subheading != blank %}
-        <p class="subheading-text">{{ section.settings.subheading }}</p>
-      {% endif %}
-    </div>
-  {% endif %}
-  
-  <div class="product-grid">
-    {% for product in section.settings.collection.products limit: 9 %}
-      <div class="product-item" data-product-id="{{ product.id }}">
-        <div class="product-image-container">
+  <div class="product-grid-container">
+    {% if section.settings.heading != blank %}
+      <div class="section-heading">
+        <h2 class="heading-text">{{ section.settings.heading }}</h2>
+        {% if section.settings.subheading != blank %}
+          <p class="subheading-text">{{ section.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="product-grid">
+      {% for product in section.settings.collection.products limit: 9 %}
+        <div class="product-item" data-product-id="{{ product.id }}">
           <img 
             src="{{ product.featured_image | image_url: width: 400 }}" 
             alt="{{ product.title }}"
             class="product-image"
             width="400"
-            height="400"
+            height="300"
             loading="lazy"
           >
+          <div class="product-overlay">
+            <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
+              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
+            </button>
+          </div>
         </div>
-        <div class="product-overlay">
-          <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-            <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
-          </button>
-        </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 
   <!-- Quick View Modal -->
   <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-image-container">
-          <img id="modalImage" src="" alt="" class="modal-product-image">
-        </div>
+        <img id="modalImage" src="" alt="" class="modal-product-image" width="500" height="300">
         <button class="close-modal" onclick="closeQuickView()">×</button>
       </div>
       <div class="modal-body">
@@ -411,6 +388,8 @@
       const modalImage = document.getElementById('modalImage');
       modalImage.src = currentProduct.image;
       modalImage.alt = currentProduct.title;
+      modalImage.setAttribute('width', '500');
+      modalImage.setAttribute('height', '500');
       document.getElementById('modalTitle').textContent = currentProduct.title;
       document.getElementById('modalDescription').textContent = currentProduct.description;
       
