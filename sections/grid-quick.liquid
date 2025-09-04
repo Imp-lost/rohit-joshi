@@ -103,10 +103,6 @@
       background: none;
     }
 
-    {% comment %} .quick-view-btn:hover {
-      transform: scale(1.1);
-    } {% endcomment %}
-
     .quick-view-btn img {
       width: 20px;
       height: 20px;
@@ -135,26 +131,35 @@
     .modal-content {
       background: white;
       border-radius: 0;
-      max-width: 400px;
+      max-width: 500px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
       -ms-overflow-style: none;
     }
 
     .modal-header {
       position: relative;
-      padding: 0;
+      padding: 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
     }
 
     .modal-product-image {
-      width: 100%;
-      height: 400px;
+      width: 120px;
+      height: 140px;
       object-fit: cover;
       display: block;
+      flex-shrink: 0;
+    }
+
+    .modal-info {
+      flex: 1;
+      min-width: 0;
     }
 
     .close-modal {
@@ -173,14 +178,7 @@
       font-weight: bold;
       color: #333;
       transform: rotate(45deg);
-    }
-
-    {% comment %} .close-modal:hover {
-      background: white;
-    } {% endcomment %}
-
-    .modal-body {
-      padding: 24px;
+      z-index: 1;
     }
 
     .modal-product-title {
@@ -204,10 +202,14 @@
       margin-bottom: 20px;
       font-size: 14px;
       display: -webkit-box;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .modal-body {
+      padding: 0 24px 24px 24px;
     }
 
     .variant-group {
@@ -324,18 +326,25 @@
       cursor: wait;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .modal-content {
         max-width: 95%;
         max-height: 95vh;
       }
       
-      .modal-body {
+      .modal-header {
+        flex-direction: column;
         padding: 20px;
       }
       
       .modal-product-image {
-        height: 300px;
+        width: 100%;
+        height: 200px;
+        align-self: center;
+      }
+      
+      .modal-body {
+        padding: 0 20px 20px 20px;
       }
     }
   </style>
@@ -374,17 +383,20 @@
   <!-- Quick View Modal -->
   <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-content">
+      <button class="close-modal" onclick="closeQuickView()">
+        <img src="{{ 'openmodal.svg' | asset_url }}" alt="Close" width="18" height="18">
+      </button>
+      
       <div class="modal-header">
-        <img id="modalImage" class="modal-product-image" width="500" height="300">
-        <button class="close-modal" onclick="closeQuickView()">
-          <img src="{{ 'openmodal.svg' | asset_url }}" alt="Close" width="18" height="18">
-        </button>
+        <img id="modalImage" class="modal-product-image" width="120" height="140">
+        <div class="modal-info">
+          <h2 id="modalTitle" class="modal-product-title"></h2>
+          <div id="modalPrice" class="modal-product-price"></div>
+          <div id="modalDescription" class="modal-product-description"></div>
+        </div>
       </div>
+      
       <div class="modal-body">
-        <h2 id="modalTitle" class="modal-product-title"></h2>
-        <div id="modalPrice" class="modal-product-price"></div>
-        <div id="modalDescription" class="modal-product-description"></div>
-        
         <form id="addToCartForm">
           <div id="variantOptions"></div>
           <button type="submit" class="add-to-cart-btn" id="addToCartBtn">
