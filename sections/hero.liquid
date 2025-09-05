@@ -1,67 +1,225 @@
 <!-- sections/hero-banner.liquid -->
 <div class="hero-banner-section">
-  <div class="hero-content">
-    <!-- Left side content -->
-    <div class="hero-text-content">
+  
+  <!-- ========== HEADER SECTION ========== -->
+  <header class="hero-header">
+    <!-- Desktop Header -->
+    <div class="desktop-header">
       <div class="brand-logo">
         <h1>{{ section.settings.brand_name }}</h1>
       </div>
-      
-      <div class="hero-main-content">
-        <h2 class="hero-title">{{ section.settings.hero_title }}</h2>
-        <p class="hero-description">{{ section.settings.hero_description }}</p>
-        
-        <div class="hero-cta">
-          <a href="{{ section.settings.cta_link }}" class="cta-button animated-button">
-            {{ section.settings.cta_text }}
-            <span class="button-arrow">→</span>
-          </a>
-        </div>
-      </div>
-      
-      <!-- Bottom promotional text -->
-      <div class="promo-text">
-        <p>{{ section.settings.promo_text }}</p>
-      </div>
-    </div>
-    
-    <!-- Right side - Hero image -->
-    <div class="hero-image">
-      {% if section.settings.hero_image != blank %}
-        {{ section.settings.hero_image | image_url: width: 1440 | image_tag: 
-           loading: 'lazy', 
-           alt: section.settings.hero_image.alt | default: 'Hero banner image',
-           class: 'hero-bg-image',
-           width: 1440,
-           height: 780 }}
-      {% else %}
-        <img src="{{ 'herobanner-standin.svg' | asset_url }}" 
-             alt="Hero banner standin" 
-             class="hero-bg-image standin-image"
-             width="1440"
-             height="780">
-      {% endif %}
-      
-      <!-- Top right CTA -->
       <div class="top-cta">
+        <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
         <a href="{{ section.settings.top_cta_link }}" class="top-cta-button animated-button">
           {{ section.settings.top_cta_text }}
           <span class="button-arrow"></span>
         </a>
       </div>
     </div>
-  </div>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <div class="mobile-menu-toggle">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </div>
+      <div class="mobile-brand">
+        <h1>{{ section.settings.brand_name }}</h1>
+      </div>
+      <div class="mobile-close">
+        <span class="close-icon">×</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== BODY SECTION ========== -->
+  <main class="hero-body">
+    <div class="hero-content">
+      <!-- Left side content -->
+      <div class="hero-text-content">
+        <div class="hero-main-content">
+          <h2 class="hero-title">{{ section.settings.hero_title }}</h2>
+          <p class="hero-description">{{ section.settings.hero_description }}</p>
+          
+          <!-- Desktop CTA -->
+          <div class="hero-cta desktop-only">
+            <a href="{{ section.settings.cta_link }}" class="cta-button animated-button">
+              {{ section.settings.cta_text }}
+              <span class="button-arrow"></span>
+            </a>
+          </div>
+
+          <!-- Mobile CTA Banner -->
+          <div class="mobile-cta-banner mobile-only">
+            <p class="mobile-cta-text">{{ section.settings.mobile_cta_text }}</p>
+            <a href="{{ section.settings.top_cta_link }}" class="mobile-cta-button animated-button">
+              {{ section.settings.mobile_cta_button_text }}
+              <span class="button-arrow"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right side - Hero image -->
+      <div class="hero-image">
+        {% if section.settings.hero_image != blank %}
+          {{ section.settings.hero_image | image_url: width: 1440 | image_tag: 
+             loading: 'lazy', 
+             alt: section.settings.hero_image.alt | default: 'Hero banner image',
+             class: 'hero-bg-image',
+             width: 1440,
+             height: 780 }}
+        {% else %}
+          <img src="{{ 'herobanner-standin.svg' | asset_url }}" 
+               alt="Hero banner standin" 
+               class="hero-bg-image standin-image"
+               width="1440"
+               height="780">
+        {% endif %}
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== FOOTER SECTION ========== -->
+  <footer class="hero-footer">
+    <div class="promo-banner">
+      <p>{{ section.settings.promo_text }}</p>
+    </div>
+  </footer>
+
 </div>
 
 <style>
+/* ========== MAIN CONTAINER ========== */
 .hero-banner-section {
   width: 100%;
   min-height: 100vh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== HEADER STYLES ========== */
+.hero-header {
+  background: transparent;
+  position: relative;
+  z-index: 10;
+}
+
+/* Desktop Header */
+.desktop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.brand-logo h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+  border: 3px solid #e53e3e;
+  padding: 1rem 2rem;
+  display: inline-block;
+  letter-spacing: 2px;
+  background: transparent;
+}
+
+.top-cta {
+  text-align: center;
+}
+
+.find-gift-text {
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  border: 2px solid #e53e3e;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  display: inline-block;
+}
+
+.top-cta-button {
+  background: #ffd700;
+  color: #000;
+  padding: 0.75rem 2rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid #000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-cta-button .button-arrow {
+  width: 18px;
+  height: 18px;
+  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: invert(0);
+  transition: all 0.3s ease;
+}
+
+/* Mobile Header */
+.mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-menu-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background: #000;
+  transition: all 0.3s ease;
+}
+
+.mobile-brand h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+  letter-spacing: 2px;
+}
+
+.mobile-close {
+  cursor: pointer;
+}
+
+.close-icon {
+  font-size: 1.8rem;
+  color: #000;
+  line-height: 1;
+}
+
+/* ========== BODY STYLES ========== */
+.hero-body {
+  flex: 1;
+  background: transparent;
+  padding: 2rem;
   display: flex;
   align-items: center;
-  padding: 2rem;
-  {% comment %} background: #ffffff; {% endcomment %}
-  position: relative;
 }
 
 .hero-content {
@@ -77,24 +235,11 @@
 .hero-text-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  min-height: 60vh;
-}
-
-.brand-logo h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: #000;
-  {% comment %} border: 3px solid #e53e3e; {% endcomment %}
-  padding: 1rem 2rem;
-  display: inline-block;
-  letter-spacing: 2px;
+  justify-content: center;
 }
 
 .hero-main-content {
-  margin: 3rem 0;
+  width: 100%;
 }
 
 .hero-title {
@@ -103,9 +248,9 @@
   margin-bottom: 2rem;
   color: #000;
   line-height: 1.2;
-  {% comment %} border: 3px solid #e53e3e; {% endcomment %}
+  border: 3px solid #e53e3e;
   padding: 2rem;
-  {% comment %} background: rgba(229, 62, 62, 0.05); {% endcomment %}
+  background: transparent;
 }
 
 .hero-description {
@@ -114,9 +259,9 @@
   margin-bottom: 3rem;
   color: #333;
   max-width: 500px;
-  {% comment %} border: 2px solid #e53e3e; {% endcomment %}
+  border: 2px solid #e53e3e;
   padding: 1.5rem;
-  {% comment %} background: rgba(229, 62, 62, 0.02); {% endcomment %}
+  background: transparent;
 }
 
 .hero-cta {
@@ -139,20 +284,60 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.promo-text {
-  margin-top: auto;
+.cta-button .button-arrow {
+  width: 20px;
+  height: 20px;
+  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: invert(1);
+  transition: all 0.3s ease;
 }
 
-.promo-text p {
+/* Mobile CTA Banner */
+.mobile-cta-banner {
+  display: none;
+  background: #f5f5f5;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 2rem -1rem;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-cta-text {
   font-size: 1rem;
   color: #000;
-  font-weight: 600;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.mobile-cta-button {
+  background: #ffd700;
+  color: #000;
+  padding: 0.75rem 2rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  {% comment %} border: 2px solid #e53e3e; {% endcomment %}
-  padding: 1rem;
-  {% comment %} background: rgba(229, 62, 62, 0.05); {% endcomment %}
-  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid #000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-cta-button .button-arrow {
+  width: 18px;
+  height: 18px;
+  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: invert(0);
+  transition: all 0.3s ease;
 }
 
 .hero-image {
@@ -174,29 +359,40 @@
   opacity: 0.7;
 }
 
-.top-cta {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
+/* ========== FOOTER STYLES ========== */
+.hero-footer {
+  background: transparent;
+  padding: 2rem;
 }
 
-.top-cta-button {
-  background: #ffd700;
-  color: #000;
-  padding: 0.75rem 2rem;
-  text-decoration: none;
+.promo-banner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.promo-banner p {
   font-size: 1rem;
-  font-weight: 700;
+  color: #000;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 2px solid #000;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e53e3e;
+  padding: 1rem;
+  background: transparent;
+  margin: 0;
+  text-align: center;
 }
 
-/* Button animations */
+/* ========== UTILITY CLASSES ========== */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* ========== BUTTON ANIMATIONS ========== */
 .animated-button {
   position: relative;
   overflow: hidden;
@@ -224,10 +420,16 @@
 }
 
 .cta-button:hover {
-  background: #e53e3e;
-  border-color: #e53e3e;
+  background: #ffd700;
+  color: #000;
+  border-color: #000;
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(229, 62, 62, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.cta-button:hover .button-arrow {
+  filter: invert(0);
+  transform: translateX(5px);
 }
 
 .top-cta-button:hover {
@@ -237,68 +439,110 @@
   box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-.button-arrow {
-  transition: transform 0.3s ease;
-}
-
-.animated-button:hover .button-arrow {
+.top-cta-button:hover .button-arrow {
+  filter: invert(1);
   transform: translateX(5px);
 }
 
-/* Responsive design */
+.mobile-cta-button:hover {
+  background: #000;
+  color: #ffd700;
+}
+
+.mobile-cta-button:hover .button-arrow {
+  filter: invert(1);
+  transform: translateX(5px);
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
 @media (max-width: 768px) {
+  .hero-banner-section {
+    min-height: 100vh;
+  }
+
+  /* Header responsive */
+  .desktop-header {
+    display: none;
+  }
+  
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Body responsive */
+  .hero-body {
+    padding: 1rem;
+  }
+
   .hero-content {
     grid-template-columns: 1fr;
     gap: 2rem;
-  }
-  
-  .hero-banner-section {
-    min-height: auto;
-    padding: 1rem;
   }
   
   .hero-image {
     height: 50vh;
     order: -1;
   }
-  
-  .brand-logo h1 {
-    font-size: 2rem;
-    padding: 0.8rem 1.5rem;
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .mobile-cta-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .hero-title {
     font-size: 2.5rem;
     padding: 1.5rem;
+    text-align: center;
+    border: none;
+    background: transparent;
   }
   
   .hero-description {
     font-size: 1.1rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: center;
+    max-width: none;
+  }
+
+  /* Footer responsive */
+  .hero-footer {
     padding: 1rem;
   }
   
-  .top-cta {
-    position: static;
-    margin-top: 1rem;
-    text-align: center;
+  .promo-banner p {
+    font-size: 0.9rem;
+    padding: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
   .hero-title {
     font-size: 2rem;
-    padding: 1rem;
   }
   
-  .brand-logo h1 {
-    font-size: 1.8rem;
-    padding: 0.6rem 1rem;
+  .mobile-brand h1 {
+    font-size: 1.3rem;
   }
   
-  .cta-button,
-  .top-cta-button {
-    padding: 0.8rem 1.5rem;
+  .mobile-cta-button {
+    padding: 0.7rem 1.5rem;
     font-size: 0.9rem;
+  }
+
+  .promo-banner p {
+    font-size: 0.8rem;
+    padding: 0.6rem;
   }
 }
 </style>
@@ -310,10 +554,35 @@
   "class": "section",
   "settings": [
     {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
       "type": "text",
       "id": "brand_name",
       "label": "Brand Name",
       "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "find_gift_text",
+      "label": "Find Gift Text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "top_cta_text",
+      "label": "Top CTA Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "top_cta_link",
+      "label": "Top CTA Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Body Settings"
     },
     {
       "type": "text",
@@ -336,31 +605,35 @@
     {
       "type": "url",
       "id": "cta_link",
-      "label": "Main CTA Button Link",
-      "default": "/collections/all"
+      "label": "Main CTA Button Link"
     },
     {
       "type": "text",
-      "id": "top_cta_text",
-      "label": "Top CTA Button Text",
+      "id": "mobile_cta_text",
+      "label": "Mobile CTA Text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "mobile_cta_button_text",
+      "label": "Mobile CTA Button Text",
       "default": "CHOOSE GIFT"
-    },
-    {
-      "type": "url",
-      "id": "top_cta_link",
-      "label": "Top CTA Button Link"
-    },
-    {
-      "type": "text",
-      "id": "promo_text",
-      "label": "Promotional Text",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
     },
     {
       "type": "image_picker",
       "id": "hero_image",
       "label": "Hero Background Image",
       "info": "If no image is selected, the standin image will be used"
+    },
+    {
+      "type": "header",
+      "content": "Footer Settings"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Promotional Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
     }
   ],
   "presets": [
@@ -370,4 +643,3 @@
   ]
 }
 {% endschema %}
-  
