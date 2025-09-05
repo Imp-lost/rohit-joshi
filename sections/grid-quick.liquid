@@ -1,5 +1,5 @@
 {% comment %}
-  Product Grid Section with Quick View
+  Product Grid Section with Quick View - Updated Size Dropdown
 {% endcomment %}
 
 <div class="product-grid-section" data-section-id="{{ section.id }}">
@@ -291,6 +291,13 @@
       background-size: 16px;
       padding-right: 40px;
       font-family: 'Jost', sans-serif;
+      color: #333;
+    }
+
+    .size-dropdown:hover {
+      background-color: #000;
+      color: white;
+      border-color: #000;
     }
 
     .size-dropdown:focus {
@@ -300,6 +307,12 @@
 
     .size-dropdown option {
       padding: 8px;
+      background: white;
+      color: #333;
+    }
+
+    .size-dropdown option:hover {
+      background: #f5f5f5;
     }
 
     .add-to-cart-btn {
@@ -320,9 +333,9 @@
       font-family: 'Jost', sans-serif;
     }
 
-    .add-to-cart-btn:hover {
+    {% comment %} .add-to-cart-btn:hover {
       background: #333;
-    }
+    } {% endcomment %}
 
     .add-to-cart-btn:disabled {
       background: #ccc;
@@ -682,15 +695,17 @@
           select.className = 'size-dropdown';
           select.addEventListener('change', (e) => updateVariant(originalIndex, e.target.value));
           
-          const defaultOption = document.createElement('option');
-          defaultOption.value = '';
-          defaultOption.textContent = 'Choose your size';
-          select.appendChild(defaultOption);
-          
-          option.values.forEach(value => {
+          // Removed the "Choose your size" default option
+          option.values.forEach((value, index) => {
             const optionElement = document.createElement('option');
             optionElement.value = value;
             optionElement.textContent = value;
+            
+            // Select the first option by default
+            if (index === 0) {
+              optionElement.selected = true;
+            }
+            
             select.appendChild(optionElement);
           });
           
