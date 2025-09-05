@@ -26,6 +26,34 @@
       <div class="mobile-brand">
         <h1>{{ section.settings.brand_name }}</h1>
       </div>
+      <div class="mobile-menu-toggle">
+        <span class="hamburger-icon"></span>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+      <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+          <div class="mobile-brand">
+            <h1>{{ section.settings.brand_name }}</h1>
+          </div>
+          <div class="mobile-menu-close">
+            <span class="close-icon"></span>
+          </div>
+        </div>
+        <div class="mobile-menu-content">
+          <div class="mobile-gift-text">
+            <p>{{ section.settings.find_gift_text }}</p>
+          </div>
+          <div class="mobile-top-cta">
+            <a href="{{ section.settings.top_cta_link }}" class="mobile-cta-button animated-button">
+              {{ section.settings.top_cta_text }}
+              <span class="button-arrow"></span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -170,9 +198,10 @@
 .mobile-header {
   display: none;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem;
   background: transparent;
+  position: relative;
 }
 
 .mobile-brand h1 {
@@ -181,6 +210,154 @@
   margin: 0;
   color: #000;
   letter-spacing: 2px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  cursor: pointer;
+  z-index: 1001;
+  margin-left: auto;
+}
+
+.hamburger-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('{{ "ham-line.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-container {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 400px;
+  height: 100vh;
+  background: #f5f5f5;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+}
+
+.mobile-menu-overlay.active .mobile-menu-container {
+  right: 0;
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-menu-header .mobile-brand h1 {
+  position: relative;
+  left: auto;
+  transform: none;
+  font-size: 1.5rem;
+}
+
+.mobile-menu-close {
+  cursor: pointer;
+}
+
+.close-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('{{ "closemodal.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  display: block;
+}
+
+.mobile-menu-content {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.mobile-gift-text {
+  margin-bottom: 2rem;
+}
+
+.mobile-gift-text p {
+  font-size: 1.1rem;
+  color: #000;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mobile-top-cta {
+  margin-bottom: 1rem;
+}
+
+.mobile-cta-button {
+  background: #ffd700;
+  color: #000;
+  padding: 0.75rem 2rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0;
+  width: 100%;
+  max-width: 300px;
+  justify-content: center;
+}
+
+.mobile-cta-button .button-arrow {
+  width: 18px;
+  height: 18px;
+  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: invert(0);
+  transition: all 0.3s ease;
+}
+
+.mobile-cta-button:hover {
+  background: #000;
+  color: #ffd700;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.mobile-cta-button:hover .button-arrow {
+  filter: invert(1);
+  transform: translateX(5px);
 }
 
 /* ========== BODY STYLES - FIXED ========== */
@@ -366,15 +543,13 @@
   .desktop-header {
     display: none;
   }
+
+  .centered-gift-text {
+    display: none; /* Hide centered text on mobile since it's in the menu */
+  }
   
   .mobile-header {
     display: flex;
-  }
-
-  /* Centered text responsive */
-  .find-gift-text {
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
   }
 
   /* Body responsive - FIXED */
@@ -426,7 +601,7 @@
     font-size: 2rem;
   }
   
-  .mobile-brand h1 {
+  .mobile-brand h1, .mobile-menu-header .mobile-brand h1 {
     font-size: 1.5rem;
   }
   
@@ -443,9 +618,12 @@
     padding: 0 1rem;
   }
 
-  .find-gift-text {
-    font-size: 0.9rem;
-    padding: 0.7rem 1.2rem;
+  .mobile-gift-text p {
+    font-size: 1rem;
+  }
+
+  .mobile-menu-container {
+    width: 90%;
   }
 }
 
@@ -461,6 +639,40 @@
 }
 */
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
+  const menuOverlay = document.querySelector('.mobile-menu-overlay');
+  const menuClose = document.querySelector('.mobile-menu-close');
+  
+  // Open menu
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+      menuOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent body scroll when menu is open
+    });
+  }
+  
+  // Close menu
+  if (menuClose) {
+    menuClose.addEventListener('click', function() {
+      menuOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Restore body scroll
+    });
+  }
+  
+  // Close menu when clicking overlay
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', function(e) {
+      if (e.target === menuOverlay) {
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Restore body scroll
+      }
+    });
+  }
+});
+</script>
 
 {% schema %}
 {
