@@ -245,11 +245,11 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
   font-family: 'Jost', sans-serif;
 }
@@ -459,6 +459,8 @@
   .add-to-cart-btn {
     padding: 12px 20px;
     font-size: 13px;
+    text-align: left; /* Ensure left alignment on mobile too */
+    justify-content: flex-start; /* Ensure left alignment on mobile too */
   }
   
   .size-dropdown-options {
