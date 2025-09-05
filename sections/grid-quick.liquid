@@ -695,17 +695,19 @@
           select.className = 'size-dropdown';
           select.addEventListener('change', (e) => updateVariant(originalIndex, e.target.value));
           
-          // Removed the "Choose your size" default option
-          option.values.forEach((value, index) => {
+          // Add placeholder option that's visible but not selectable in dropdown
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = 'Choose your size';
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          defaultOption.hidden = true; // This hides it from the dropdown list
+          select.appendChild(defaultOption);
+          
+          option.values.forEach(value => {
             const optionElement = document.createElement('option');
             optionElement.value = value;
             optionElement.textContent = value;
-            
-            // Select the first option by default
-            if (index === 0) {
-              optionElement.selected = true;
-            }
-            
             select.appendChild(optionElement);
           });
           
