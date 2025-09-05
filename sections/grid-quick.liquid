@@ -1,5 +1,5 @@
 {% comment %}
-  Product Grid Section with Quick View - Fixed Grid Twitching Issue
+  Product Grid Section with Quick View - Fixed Dropdown Hover
 {% endcomment %}
 
 <div class="product-grid-section" data-section-id="{{ section.id }}">
@@ -575,23 +575,6 @@
     let currentProduct = null;
     let selectedVariant = null;
 
-    // Function to calculate scrollbar width
-    function getScrollbarWidth() {
-      const outer = document.createElement('div');
-      outer.style.visibility = 'hidden';
-      outer.style.overflow = 'scroll';
-      outer.style.msOverflowStyle = 'scrollbar';
-      document.body.appendChild(outer);
-
-      const inner = document.createElement('div');
-      outer.appendChild(inner);
-
-      const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-      outer.parentNode.removeChild(outer);
-
-      return scrollbarWidth;
-    }
-
     // Enhanced color mapping
     const colorMap = {
       'Black': '#000000', 'White': '#FFFFFF', 'Blue': '#0066CC', 'Red': '#CC0000',
@@ -632,17 +615,9 @@
       return `rgb(${r}, ${g}, ${b})`;
     }
 
-    // UPDATED: Fixed openQuickView function to prevent grid twitching
     function openQuickView(productId) {
       currentProduct = productData[productId];
       if (!currentProduct) return;
-
-      // Calculate and compensate for scrollbar width BEFORE hiding overflow
-      const scrollbarWidth = getScrollbarWidth();
-      
-      // Add padding to body to compensate for lost scrollbar
-      document.body.style.paddingRight = scrollbarWidth + 'px';
-      document.body.style.overflow = 'hidden';
 
       const modalImage = document.getElementById('modalImage');
       modalImage.src = currentProduct.image;
@@ -656,16 +631,12 @@
       buildVariantOptions();
       
       document.getElementById('quickViewModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    // UPDATED: Fixed closeQuickView function to prevent grid twitching
     function closeQuickView() {
       document.getElementById('quickViewModal').classList.remove('active');
-      
-      // Remove the padding compensation and restore scroll
-      document.body.style.paddingRight = '';
       document.body.style.overflow = '';
-      
       currentProduct = null;
       selectedVariant = null;
     }
@@ -987,4 +958,4 @@
     }
   ]
 }
-{% endschema %}
+{% endschema%}
