@@ -612,6 +612,46 @@
     padding: clamp(0.5rem, 1vh, 0.5rem);
     line-height: 1.4;
   }
+   .cta-button {
+    transition: none; /* Remove transition */
+  }
+  
+  .cta-button:hover {
+    background: #000; /* Keep original colors */
+    color: #fff;
+    transform: none; /* Remove transform animation */
+    box-shadow: none; /* Remove box shadow */
+  }
+  
+  .cta-button:hover .button-arrow {
+    filter: invert(1);
+    transform: none; /* Remove arrow slide animation */
+  }
+  
+  .mobile-cta-button {
+    transition: none; /* Remove transition */
+  }
+  
+  .mobile-cta-button:hover {
+    background: #ffd700; /* Keep original colors */
+    color: #000;
+    transform: none; /* Remove transform animation */
+    box-shadow: none; /* Remove box shadow */
+  }
+  
+  .mobile-cta-button:hover .button-arrow {
+    filter: invert(0);
+    transform: none; /* Remove arrow slide animation */
+  }
+  
+  /* Also disable the shimmer effect on mobile */
+  .animated-button::before {
+    display: none;
+  }
+  
+  .animated-button:hover::before {
+    display: none;
+  }
 }
 </style>
 
