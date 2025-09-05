@@ -1,5 +1,5 @@
 {% comment %}
-  Product Grid Section with Quick View - Fixed Dropdown Hover
+  Product Grid Section with Quick View - Manual Product Selection
 {% endcomment %}
 
 <div class="product-grid-section" data-section-id="{{ section.id }}">
@@ -557,22 +557,26 @@
     {% endif %}
     
     <div class="product-grid">
-      {% for product in section.settings.collection.products limit: 6 %}
-        <div class="product-item" data-product-id="{{ product.id }}">
-          <img 
-            src="{{ product.featured_image | image_url: width: 400 }}" 
-            alt="{{ product.title }}"
-            class="product-image"
-            width="400"
-            height="400"
-            loading="lazy"
-          >
-          <div class="product-overlay">
-            <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
-              <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
-            </button>
+      {% comment %} Loop through manually selected products {% endcomment %}
+      {% for block in section.blocks %}
+        {% if block.settings.product != blank %}
+          {% assign product = block.settings.product %}
+          <div class="product-item" data-product-id="{{ product.id }}">
+            <img 
+              src="{{ product.featured_image | image_url: width: 400 }}" 
+              alt="{{ product.title }}"
+              class="product-image"
+              width="400"
+              height="400"
+              loading="lazy"
+            >
+            <div class="product-overlay">
+              <button class="quick-view-btn" onclick="openQuickView({{ product.id }})">
+                <img src="{{ 'openmodal.svg' | asset_url }}" alt="Quick View" width="24" height="24">
+              </button>
+            </div>
           </div>
-        </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -609,37 +613,41 @@
     // Product data storage
     const productData = {};
     
-    {% for product in section.settings.collection.products limit: 9 %}
-      productData[{{ product.id }}] = {
-        id: {{ product.id }},
-        title: {{ product.title | json }},
-        price: {{ product.price | json }},
-        comparePrice: {{ product.compare_at_price | json }},
-        description: {{ product.description | strip_html | json }},
-        image: {{ product.featured_image | image_url: width: 500 | json }},
-        variants: [
-          {% for variant in product.variants %}
-            {
-              id: {{ variant.id }},
-              title: {{ variant.title | json }},
-              price: {{ variant.price | json }},
-              available: {{ variant.available | json }},
-              option1: {{ variant.option1 | json }},
-              option2: {{ variant.option2 | json }},
-              option3: {{ variant.option3 | json }}
-            }{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ],
-        options: [
-          {% for option in product.options_with_values %}
-            {
-              name: {{ option.name | json }},
-              position: {{ option.position }},
-              values: {{ option.values | json }}
-            }{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      };
+    {% comment %} Build product data from manually selected products {% endcomment %}
+    {% for block in section.blocks %}
+      {% if block.settings.product != blank %}
+        {% assign product = block.settings.product %}
+        productData[{{ product.id }}] = {
+          id: {{ product.id }},
+          title: {{ product.title | json }},
+          price: {{ product.price | json }},
+          comparePrice: {{ product.compare_at_price | json }},
+          description: {{ product.description | strip_html | json }},
+          image: {{ product.featured_image | image_url: width: 500 | json }},
+          variants: [
+            {% for variant in product.variants %}
+              {
+                id: {{ variant.id }},
+                title: {{ variant.title | json }},
+                price: {{ variant.price | json }},
+                available: {{ variant.available | json }},
+                option1: {{ variant.option1 | json }},
+                option2: {{ variant.option2 | json }},
+                option3: {{ variant.option3 | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ],
+          options: [
+            {% for option in product.options_with_values %}
+              {
+                name: {{ option.name | json }},
+                position: {{ option.position }},
+                values: {{ option.values | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+        };
+      {% endif %}
     {% endfor %}
 
     let currentProduct = null;
@@ -997,7 +1005,7 @@
 
 {% schema %}
 {
-  "name": "Quick View",
+  "name": "Manual Product Grid",
   "settings": [
     {
       "type": "text",
@@ -1010,22 +1018,41 @@
       "id": "subheading",
       "label": "Section Subheading",
       "info": "Optional description text below the heading"
-    },
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Collection",
-      "info": "Select the collection to display products from"
     }
   ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
   "presets": [
     {
-      "name": "Product Grid with Quick View",
+      "name": "Manual Product Grid with Quick View",
       "settings": {
         "heading": "Featured Products",
         "subheading": "Discover our curated selection of premium products"
-      }
+      },
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
     }
   ]
 }
-{% endschema%}
+{% endschema %}
