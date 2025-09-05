@@ -61,7 +61,7 @@
     @media (max-width: 768px) {
       .product-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 4px;
+        gap: 15px;
       }
     }
 
@@ -443,9 +443,7 @@
           <div id="variantOptions"></div>
           <button type="submit" class="add-to-cart-btn" id="addToCartBtn">
             <span>ADD TO CART</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
+            <img src="{{ 'arrow-modal.svg' | asset_url }}" alt="Arrow" width="16" height="16">
           </button>
         </form>
       </div>
