@@ -80,11 +80,56 @@
     },
     "grid_quick_BTkHqV": {
       "type": "grid-quick",
+      "blocks": {
+        "product_EPdBEz": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag"
+          }
+        },
+        "product_f9yx4D": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo"
+          }
+        },
+        "product_EVkw9K": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket"
+          }
+        },
+        "product_MzfWzP": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt"
+          }
+        },
+        "product_FGPFxC": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top"
+          }
+        },
+        "product_hc3nij": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top"
+          }
+        }
+      },
+      "block_order": [
+        "product_EPdBEz",
+        "product_f9yx4D",
+        "product_EVkw9K",
+        "product_MzfWzP",
+        "product_FGPFxC",
+        "product_hc3nij"
+      ],
       "name": "Product Grid with Quick View",
       "settings": {
         "heading": "Tisso vison in the wild",
-        "subheading": "",
-        "collection": "test-assement"
+        "subheading": ""
       }
     }
   },
