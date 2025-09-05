@@ -9,12 +9,16 @@
         <h1>{{ section.settings.brand_name }}</h1>
       </div>
       <div class="top-cta">
-        <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
         <a href="{{ section.settings.top_cta_link }}" class="top-cta-button animated-button">
           {{ section.settings.top_cta_text }}
           <span class="button-arrow"></span>
         </a>
       </div>
+    </div>
+
+    <!-- Centered Find Gift Text -->
+    <div class="centered-gift-text">
+      <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
     </div>
 
     <!-- Mobile Header -->
@@ -110,15 +114,31 @@
 }
 
 .top-cta {
+  /* Removed text-align: center since find-gift-text moved */
+}
+
+/* Centered Find Gift Text - NEW SECTION */
+.centered-gift-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
   text-align: center;
 }
 
 .find-gift-text {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #000;
-  margin-bottom: 1rem;
-  font-weight: 400;
+  margin: 0;
+  font-weight: 500;
   display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .top-cta-button {
@@ -339,6 +359,12 @@
     display: flex;
   }
 
+  /* Centered text responsive */
+  .find-gift-text {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+
   /* Body responsive */
   .hero-image-container {
     height: 70vh;
@@ -391,6 +417,11 @@
 
   .hero-content-overlay {
     padding: 2rem 1rem 1rem 1rem;
+  }
+
+  .find-gift-text {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
   }
 }
 </style>
