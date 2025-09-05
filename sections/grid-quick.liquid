@@ -1,3 +1,4 @@
+
 {% comment %}
   Product Grid Section with Quick View - Updated Size Dropdown
 {% endcomment %}
@@ -716,6 +717,10 @@
             optionElement.textContent = value;
             select.appendChild(optionElement);
           });
+          
+          // Auto-select first size option if we want to avoid the placeholder
+          select.selectedIndex = 1; // Skip the placeholder (index 0)
+          updateVariant(originalIndex, option.values[0]);
           
           variantGroup.appendChild(select);
         } else {
