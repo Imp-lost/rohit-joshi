@@ -8,23 +8,30 @@
       <div class="brand-logo">
         <h1>{{ section.settings.brand_name }}</h1>
       </div>
+      <div class="centered-gift-text">
+        <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
+      </div>
       <div class="top-cta">
-        <a href="{{ section.settings.top_cta_link }}" class="top-cta-button animated-button">
+        <a href="{{ section.settings.top_cta_link }}" class="top-cta-button">
           {{ section.settings.top_cta_text }}
-          <span class="button-arrow"></span>
+          <span class="button-arrow">→</span>
         </a>
       </div>
-    </div>
-
-    <!-- Centered Find Gift Text -->
-    <div class="centered-gift-text">
-      <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
     </div>
 
     <!-- Mobile Header -->
     <div class="mobile-header">
       <div class="mobile-brand">
         <h1>{{ section.settings.brand_name }}</h1>
+      </div>
+      <div class="mobile-gift-text">
+        <p class="find-gift-text">{{ section.settings.find_gift_text }}</p>
+      </div>
+      <div class="mobile-cta">
+        <a href="{{ section.settings.top_cta_link }}" class="top-cta-button">
+          {{ section.settings.top_cta_text }}
+          <span class="button-arrow">→</span>
+        </a>
       </div>
     </div>
   </header>
@@ -57,9 +64,9 @@
             
             <!-- CTA Button -->
             <div class="hero-cta">
-              <a href="{{ section.settings.cta_link }}" class="cta-button animated-button">
+              <a href="{{ section.settings.cta_link }}" class="cta-button">
                 {{ section.settings.cta_text }}
-                <span class="button-arrow"></span>
+                <span class="button-arrow">→</span>
               </a>
             </div>
           </div>
@@ -78,7 +85,7 @@
 </div>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* ========== MAIN CONTAINER ========== */
 .hero-banner-section {
@@ -87,113 +94,106 @@
   background: #fff;
   display: flex;
   flex-direction: column;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* ========== HEADER STYLES ========== */
 .hero-header {
-  background: #f5f5f5;
+  background: #f8f9fa;
   position: relative;
   z-index: 10;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 0;
 }
 
 /* Desktop Header */
 .desktop-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 2rem;
+  align-items: center;
+  padding: 0 40px;
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
 }
 
 .brand-logo h1 {
-  font-size: 2.5rem;
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
   color: #000;
-  letter-spacing: 2px;
-  background: transparent;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
-.top-cta {
-  /* Removed text-align: center since find-gift-text moved */
-}
-
-/* Centered Find Gift Text - NEW SECTION */
+/* Centered Find Gift Text */
 .centered-gift-text {
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
+  transform: translateX(-50%);
   text-align: center;
 }
 
 .find-gift-text {
-  font-size: 1.2rem;
-  color: #000;
+  font-size: 16px;
+  color: #333;
   margin: 0;
-  font-weight: 500;
-  display: inline-block;
-
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 .top-cta-button {
-  background: #ffd700;
+  background: #f0d000;
   color: #000;
-  padding: 0.75rem 2rem;
+  padding: 12px 24px;
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 0;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
 }
 
-.top-cta-button .button-arrow {
-  width: 18px;
-  height: 18px;
-  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  filter: invert(0);
-  transition: all 0.3s ease;
+.button-arrow {
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* Mobile Header */
 .mobile-header {
   display: none;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background: transparent;
+  padding: 20px;
+  gap: 15px;
 }
 
 .mobile-brand h1 {
-  font-size: 1.8rem;
+  font-size: 20px;
   font-weight: 700;
   margin: 0;
   color: #000;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.mobile-gift-text {
+  text-align: center;
 }
 
 /* ========== BODY STYLES ========== */
 .hero-body {
   flex: 1;
   position: relative;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .hero-image-container {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: 75vh;
   overflow: hidden;
 }
 
@@ -205,7 +205,7 @@
 }
 
 .standin-image {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* Content Overlay - Bottom Left Positioning */
@@ -214,75 +214,62 @@
   bottom: 0;
   left: 0;
   right: 0;
-  {% comment %} background: linear-gradient(transparent, rgba(0,0,0,0.3)); {% endcomment %}
-  padding: 4rem 0 2rem 0;
+  padding: 60px 0 40px 0;
 }
 
-/* NEW: Content wrapper with max-width */
 .hero-content-wrapper {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 40px;
 }
 
 .hero-text-content {
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .hero-title {
-  font-size: 40px;
-  font-weight: 500;
-  margin-bottom: 1rem;
+  font-size: 48px;
+  font-weight: 400;
+  margin-bottom: 24px;
   color: #000;
   line-height: 1.1;
-  {% comment %} text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); {% endcomment %}
+  letter-spacing: -0.5px;
 }
 
 .hero-description {
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.6;
   font-weight: 400;
-  margin-bottom: 2rem;
-  color: #000;
-  max-width: 450px;
+  margin-bottom: 32px;
+  color: #333;
+  max-width: 420px;
 }
 
 .hero-cta {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 
 .cta-button {
   background: #000;
   color: #fff;
-  padding: 1rem 2.5rem;
+  padding: 16px 32px;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 0;
-  font-family: 'Jost', sans-serif;
-}
-
-.cta-button .button-arrow {
-  width: 20px;
-  height: 20px;
-  background-image: url('{{ "arrow-modal.svg" | asset_url }}');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  filter: invert(1);
-  transition: all 0.3s ease;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 /* ========== FOOTER STYLES ========== */
 .hero-footer {
-  background: #f5f5f5;
-  padding: 1rem 2rem;
+  background: #f8f9fa;
+  padding: 20px 40px;
+  border-top: 1px solid #e9ecef;
 }
 
 .promo-banner {
@@ -292,64 +279,12 @@
 }
 
 .promo-banner p {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.9rem;
+  font-size: 12px;
   color: #666;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   margin: 0;
-}
-
-/* ========== BUTTON ANIMATIONS ========== */
-.animated-button {
-  position: relative;
-  overflow: hidden;
-  transform: translateZ(0);
-}
-
-.animated-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.animated-button:hover::before {
-  left: 100%;
-}
-
-.animated-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.cta-button:hover {
-  background: #ffd700;
-  color: #000;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-}
-
-.cta-button:hover .button-arrow {
-  filter: invert(0);
-  transform: translateX(5px);
-}
-
-.top-cta-button:hover {
-  background: #000;
-  color: #ffd700;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.top-cta-button:hover .button-arrow {
-  filter: invert(1);
-  transform: translateX(5px);
 }
 
 /* ========== RESPONSIVE DESIGN ========== */
@@ -367,77 +302,85 @@
     display: flex;
   }
 
-  /* Centered text responsive */
-  .find-gift-text {
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-  }
-
   /* Body responsive */
   .hero-image-container {
-    height: 70vh;
+    height: 60vh;
   }
 
   .hero-content-overlay {
-    padding: 3rem 0 1.5rem 0;
+    padding: 40px 0 30px 0;
   }
 
   .hero-content-wrapper {
-    padding: 0 1rem;
+    padding: 0 20px;
   }
   
   .hero-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 36px;
+    margin-bottom: 20px;
   }
   
   .hero-description {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
+    font-size: 15px;
+    margin-bottom: 28px;
     max-width: none;
   }
 
   .cta-button {
-    padding: 0.8rem 2rem;
-    font-size: 0.9rem;
+    padding: 14px 28px;
+    font-size: 13px;
+  }
+
+  .top-cta-button {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 
   /* Footer responsive */
   .hero-footer {
-    padding: 1rem;
+    padding: 16px 20px;
   }
   
   .promo-banner p {
-    font-size: 0.8rem;
-    padding: 0.5rem;
+    font-size: 11px;
+    letter-spacing: 1.5px;
   }
 }
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 2rem;
+    font-size: 28px;
   }
   
   .mobile-brand h1 {
-    font-size: 1.5rem;
+    font-size: 18px;
+    letter-spacing: 2px;
   }
   
   .cta-button {
-    padding: 0.7rem 1.8rem;
-    font-size: 0.85rem;
+    padding: 12px 24px;
+    font-size: 12px;
+  }
+
+  .top-cta-button {
+    padding: 8px 16px;
+    font-size: 12px;
   }
 
   .hero-content-overlay {
-    padding: 2rem 0 1rem 0;
+    padding: 30px 0 20px 0;
   }
 
   .hero-content-wrapper {
-    padding: 0 1rem;
+    padding: 0 16px;
   }
 
   .find-gift-text {
-    font-size: 0.9rem;
-    padding: 0.7rem 1.2rem;
+    font-size: 14px;
+  }
+
+  .hero-footer {
+    padding: 12px 16px;
   }
 }
 </style>
@@ -516,7 +459,7 @@
       "type": "text",
       "id": "promo_text",
       "label": "Promotional Text",
-      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
     }
   ],
   "presets": [
