@@ -328,7 +328,7 @@
   background: white;
   border: 1px solid #ddd;
   border-top: none;
-  max-height: 100px;
+  max-height: 120px;
   overflow-y: auto;
   z-index: 1000;
   display: none;
@@ -344,7 +344,7 @@
 
 /* Ensure dropdown doesn't exceed modal boundaries */
 .modal-content .size-dropdown-options {
-  max-height: min(100px, 20vh);
+  max-height: min(120px, 30vh);
 }
 
 .size-dropdown-container.open .size-dropdown-options {
@@ -454,13 +454,14 @@
   .variant-option {
     padding: 10px 12px;
     font-size: 13px;
+    text-align: left; /* Ensure left alignment on mobile too */
+    justify-content: flex-start; /* Ensure left alignment on mobile too */
   }
   
   .add-to-cart-btn {
     padding: 12px 20px;
     font-size: 13px;
-    text-align: left; /* Ensure left alignment on mobile too */
-    justify-content: flex-start; /* Ensure left alignment on mobile too */
+
   }
   
   .size-dropdown-options {
@@ -468,7 +469,7 @@
   }
   
   .modal-content .size-dropdown-options {
-    max-height: min(100px, 20vh);
+    max-height: min(100px, 25vh);
   }
 }
   </style>
