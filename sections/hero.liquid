@@ -50,16 +50,18 @@
       
       <!-- Content Overlay - Bottom Left -->
       <div class="hero-content-overlay">
-        <div class="hero-text-content">
-          <h2 class="hero-title">{{ section.settings.hero_title }}</h2>
-          <p class="hero-description">{{ section.settings.hero_description }}</p>
-          
-          <!-- CTA Button -->
-          <div class="hero-cta">
-            <a href="{{ section.settings.cta_link }}" class="cta-button animated-button">
-              {{ section.settings.cta_text }}
-              <span class="button-arrow"></span>
-            </a>
+        <div class="hero-content-wrapper">
+          <div class="hero-text-content">
+            <h2 class="hero-title">{{ section.settings.hero_title }}</h2>
+            <p class="hero-description">{{ section.settings.hero_description }}</p>
+            
+            <!-- CTA Button -->
+            <div class="hero-cta">
+              <a href="{{ section.settings.cta_link }}" class="cta-button animated-button">
+                {{ section.settings.cta_text }}
+                <span class="button-arrow"></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -211,7 +213,14 @@
   left: 0;
   right: 0;
   {% comment %} background: linear-gradient(transparent, rgba(0,0,0,0.3)); {% endcomment %}
-  padding: 4rem 2rem 2rem 2rem;
+  padding: 4rem 0 2rem 0;
+}
+
+/* NEW: Content wrapper with max-width */
+.hero-content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .hero-text-content {
@@ -228,7 +237,7 @@
 }
 
 .hero-description {
-  font-size: 10px;
+  font-size: 18px;
   line-height: 1.5;
   font-weight: 400;
   margin-bottom: 2rem;
@@ -254,6 +263,7 @@
   gap: 0.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0;
+  font-family: 'Jost', sans-serif;
 }
 
 .cta-button .button-arrow {
@@ -367,7 +377,11 @@
   }
 
   .hero-content-overlay {
-    padding: 3rem 1rem 1.5rem 1rem;
+    padding: 3rem 0 1.5rem 0;
+  }
+
+  .hero-content-wrapper {
+    padding: 0 1rem;
   }
   
   .hero-title {
@@ -412,7 +426,11 @@
   }
 
   .hero-content-overlay {
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 2rem 0 1rem 0;
+  }
+
+  .hero-content-wrapper {
+    padding: 0 1rem;
   }
 
   .find-gift-text {
