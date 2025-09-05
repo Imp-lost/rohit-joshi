@@ -1,4 +1,3 @@
-
 {% comment %}
   Product Grid Section with Quick View - Updated Size Dropdown
 {% endcomment %}
@@ -203,7 +202,6 @@
     .modal-product-description {
       color: #666;
       line-height: 1.5;
-      {% comment %} margin-bottom: 20px; {% endcomment %}
       font-size: 14px;
       display: -webkit-box;
       -webkit-line-clamp: 4;
@@ -278,46 +276,84 @@
       border-color: white;
     }
 
-    .size-dropdown {
+    /* Custom Size Dropdown Styles */
+    .size-dropdown-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .size-dropdown-button {
       width: 100%;
       padding: 12px 16px;
       border: 1px solid #ddd;
-      font-size: 14px;
       background: white;
       cursor: pointer;
-      appearance: none;
-      background-image: url('{{ "dropdown-arrow.svg" | asset_url }}');
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 16px;
-      padding-right: 40px;
+      font-size: 14px;
       font-family: 'Jost', sans-serif;
       color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
     }
 
-    .size-dropdown:hover {
-      background-color: #000;
-      color: white;
-      border-color: #000;
-    }
-
-    .size-dropdown:focus {
-      outline: none;
+    .size-dropdown-button:hover {
       border-color: #333;
     }
 
-    .size-dropdown option {
-      padding: 8px;
+    .size-dropdown-container.open .size-dropdown-button {
+      border-color: #000;
+    }
+
+    .dropdown-arrow {
+      transition: transform 0.2s ease;
+    }
+
+    .size-dropdown-container.open .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .size-dropdown-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
       background: white;
-      color: #333;
+      border: 1px solid #ddd;
+      border-top: none;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .size-dropdown option:hover {
-      background: !important;
-      color: black !important;
+    .size-dropdown-container.open .size-dropdown-options {
+      display: block;
     }
 
-    .size-dropdown option:checked {
+    .size-option {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Jost', sans-serif;
+      text-align: left;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .size-option:last-child {
+      border-bottom: none;
+    }
+
+    .size-option:hover {
+      background: #f5f5f5;
+    }
+
+    .size-option.selected {
       background: #000;
       color: white;
     }
@@ -340,10 +376,6 @@
       font-family: 'Jost', sans-serif;
     }
 
-    {% comment %} .add-to-cart-btn:hover {
-      background: #333;
-    } {% endcomment %}
-
     .add-to-cart-btn:disabled {
       background: #ccc;
       cursor: not-allowed;
@@ -361,16 +393,14 @@
       }
       
       .modal-header {
-        /* Keep the same flex layout as desktop */
         display: flex;
-        gap: 15px; /* Slightly smaller gap for mobile */
+        gap: 15px;
         align-items: flex-start;
         padding: 20px;
       }
       
       .modal-product-image {
-        /* Keep proportional sizing */
-        width: 100px; /* Slightly smaller for mobile */
+        width: 100px;
         height: 120px;
         flex-shrink: 0;
         object-fit: cover;
@@ -381,7 +411,6 @@
         min-width: 0;
       }
       
-      /* Adjust text sizes for mobile if needed */
       .modal-product-title {
         font-size: 14px;
       }
@@ -398,7 +427,6 @@
         padding: 0 20px 20px 20px;
       }
       
-      /* Make variant options slightly smaller */
       .variant-option {
         padding: 10px 12px;
         font-size: 13px;
@@ -510,113 +538,43 @@
     let currentProduct = null;
     let selectedVariant = null;
 
-    // Enhanced color mapping with dynamic detection
+    // Enhanced color mapping
     const colorMap = {
-      // Basic colors
-      'Black': '#000000',
-      'White': '#FFFFFF',
-      'Blue': '#0066CC',
-      'Red': '#CC0000',
-      'Green': '#00CC00',
-      'Yellow': '#FFFF00',
-      'Purple': '#6600CC',
-      'Pink': '#FF69B4',
-      'Orange': '#FF6600',
-      'Brown': '#8B4513',
-      'Gray': '#808080',
-      'Grey': '#808080',
-      
-      // Extended color variations
-      'Navy': '#000080',
-      'Light Blue': '#87CEEB',
-      'Dark Blue': '#00008B',
-      'Sky Blue': '#87CEEB',
-      'Royal Blue': '#4169E1',
-      
-      'Light Green': '#90EE90',
-      'Dark Green': '#006400',
-      'Forest Green': '#228B22',
-      'Olive': '#808000',
-      'Lime': '#00FF00',
-      
-      'Light Gray': '#D3D3D3',
-      'Dark Gray': '#A9A9A9',
-      'Silver': '#C0C0C0',
-      'Charcoal': '#36454F',
-      'Slate': '#708090',
-      
-      'Burgundy': '#800020',
-      'Maroon': '#800000',
-      'Crimson': '#DC143C',
-      'Rose': '#FF007F',
-      'Coral': '#FF7F50',
-      
-      'Beige': '#F5F5DC',
-      'Cream': '#FFFDD0',
-      'Ivory': '#FFFFF0',
-      'Tan': '#D2B48C',
-      'Khaki': '#F0E68C',
-      
-      'Gold': '#FFD700',
-      'Bronze': '#CD7F32',
-      'Copper': '#B87333',
-      
-      'Lavender': '#E6E6FA',
-      'Violet': '#EE82EE',
-      'Indigo': '#4B0082',
-      'Magenta': '#FF00FF',
-      
-      'Turquoise': '#40E0D0',
-      'Teal': '#008080',
-      'Cyan': '#00FFFF',
-      'Mint': '#98FB98',
-      
-      'Peach': '#FFCBA4',
-      'Salmon': '#FA8072',
-      'Mustard': '#FFDB58',
-      'Rust': '#B7410E'
+      'Black': '#000000', 'White': '#FFFFFF', 'Blue': '#0066CC', 'Red': '#CC0000',
+      'Green': '#00CC00', 'Yellow': '#FFFF00', 'Purple': '#6600CC', 'Pink': '#FF69B4',
+      'Orange': '#FF6600', 'Brown': '#8B4513', 'Gray': '#808080', 'Grey': '#808080',
+      'Navy': '#000080', 'Light Blue': '#87CEEB', 'Dark Blue': '#00008B',
+      'Light Green': '#90EE90', 'Dark Green': '#006400', 'Forest Green': '#228B22',
+      'Light Gray': '#D3D3D3', 'Dark Gray': '#A9A9A9', 'Silver': '#C0C0C0',
+      'Burgundy': '#800020', 'Maroon': '#800000', 'Crimson': '#DC143C',
+      'Beige': '#F5F5DC', 'Cream': '#FFFDD0', 'Ivory': '#FFFFF0', 'Tan': '#D2B48C'
     };
 
-    // Dynamic color detection function
     function getVariantColor(colorValue) {
-      // First try exact match from colorMap
-      if (colorMap[colorValue]) {
-        return colorMap[colorValue];
-      }
+      if (colorMap[colorValue]) return colorMap[colorValue];
       
-      // Try case-insensitive match
       const exactMatch = Object.keys(colorMap).find(
         key => key.toLowerCase() === colorValue.toLowerCase()
       );
-      if (exactMatch) {
-        return colorMap[exactMatch];
-      }
+      if (exactMatch) return colorMap[exactMatch];
       
-      // Try partial match (for compound color names like "Light Blue Denim")
       const partialMatch = Object.keys(colorMap).find(
         key => colorValue.toLowerCase().includes(key.toLowerCase()) || 
                key.toLowerCase().includes(colorValue.toLowerCase())
       );
-      if (partialMatch) {
-        return colorMap[partialMatch];
-      }
+      if (partialMatch) return colorMap[partialMatch];
       
-      // Generate color based on string hash (fallback for unknown colors)
       return generateColorFromString(colorValue);
     }
 
-    // Generate a color based on string hash for unknown color names
     function generateColorFromString(str) {
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
         hash = str.charCodeAt(i) + ((hash << 5) - hash);
       }
-      
-      // Convert to RGB while avoiding too light colors
       const r = Math.max(50, (hash & 0xFF0000) >> 16);
       const g = Math.max(50, (hash & 0x00FF00) >> 8);
       const b = Math.max(50, hash & 0x0000FF);
-      
       return `rgb(${r}, ${g}, ${b})`;
     }
 
@@ -624,7 +582,6 @@
       currentProduct = productData[productId];
       if (!currentProduct) return;
 
-      // Populate modal content
       const modalImage = document.getElementById('modalImage');
       modalImage.src = currentProduct.image;
       modalImage.alt = currentProduct.title;
@@ -632,14 +589,10 @@
       document.getElementById('modalTitle').textContent = currentProduct.title;
       document.getElementById('modalDescription').textContent = currentProduct.description;
       
-      // Set initial variant and price
       selectedVariant = currentProduct.variants[0];
       updatePrice();
-      
-      // Build variant options
       buildVariantOptions();
       
-      // Show modal
       document.getElementById('quickViewModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -660,32 +613,25 @@
       }
     }
 
-    // Updated buildVariantOptions with color first, size last, and dynamic colors
     function buildVariantOptions() {
       const container = document.getElementById('variantOptions');
       container.innerHTML = '';
 
       if (!currentProduct.options || currentProduct.options.length === 0) return;
 
-      // Sort options: Color first, Size last, others in between
       const sortedOptions = [...currentProduct.options].sort((a, b) => {
         const aName = a.name.toLowerCase();
         const bName = b.name.toLowerCase();
         
-        // Color should come first
         if (aName === 'color' || aName === 'colour') return -1;
         if (bName === 'color' || bName === 'colour') return 1;
-        
-        // Size should come last
         if (aName === 'size') return 1;
         if (bName === 'size') return -1;
         
-        // Keep original order for other options
         return a.position - b.position;
       });
 
       sortedOptions.forEach((option, sortedIndex) => {
-        // Find the original index for this option
         const originalIndex = currentProduct.options.findIndex(opt => opt.name === option.name);
         
         const variantGroup = document.createElement('div');
@@ -697,34 +643,52 @@
         variantGroup.appendChild(label);
 
         if (option.name.toLowerCase() === 'size') {
-          // Create dropdown for size
-          const select = document.createElement('select');
-          select.className = 'size-dropdown';
-          select.addEventListener('change', (e) => updateVariant(originalIndex, e.target.value));
+          // Create custom dropdown for size
+          const dropdownContainer = document.createElement('div');
+          dropdownContainer.className = 'size-dropdown-container';
           
-          // Add placeholder option that's visible but not selectable in dropdown
-          const defaultOption = document.createElement('option');
-          defaultOption.value = '';
-          defaultOption.textContent = 'Choose your size';
-          defaultOption.disabled = true;
-          defaultOption.selected = true;
-          defaultOption.hidden = true; // This hides it from the dropdown list
-          select.appendChild(defaultOption);
+          const dropdownButton = document.createElement('button');
+          dropdownButton.type = 'button';
+          dropdownButton.className = 'size-dropdown-button';
+          dropdownButton.innerHTML = `
+            <span class="selected-size">Choose your size</span>
+            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          `;
+          
+          const dropdownOptions = document.createElement('div');
+          dropdownOptions.className = 'size-dropdown-options';
           
           option.values.forEach(value => {
-            const optionElement = document.createElement('option');
-            optionElement.value = value;
+            const optionElement = document.createElement('button');
+            optionElement.type = 'button';
+            optionElement.className = 'size-option';
             optionElement.textContent = value;
-            select.appendChild(optionElement);
+            optionElement.addEventListener('click', () => {
+              dropdownButton.querySelector('.selected-size').textContent = value;
+              dropdownOptions.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+              optionElement.classList.add('selected');
+              dropdownContainer.classList.remove('open');
+              updateVariant(originalIndex, value);
+            });
+            
+            dropdownOptions.appendChild(optionElement);
           });
           
-          // Auto-select first size option if we want to avoid the placeholder
-          select.selectedIndex = 1; // Skip the placeholder (index 0)
-          updateVariant(originalIndex, option.values[0]);
+          dropdownButton.addEventListener('click', () => {
+            dropdownContainer.classList.toggle('open');
+            document.querySelectorAll('.size-dropdown-container.open').forEach(container => {
+              if (container !== dropdownContainer) {
+                container.classList.remove('open');
+              }
+            });
+          });
           
-          variantGroup.appendChild(select);
+          dropdownContainer.appendChild(dropdownButton);
+          dropdownContainer.appendChild(dropdownOptions);
+          variantGroup.appendChild(dropdownContainer);
         } else {
-          // Create button grid for other options (like color)
           const optionsContainer = document.createElement('div');
           optionsContainer.className = 'variant-options';
           
@@ -733,20 +697,14 @@
             button.type = 'button';
             button.className = 'variant-option';
             
-            // Add color dot if this is a color option with dynamic color detection
             if (option.name.toLowerCase() === 'color' || option.name.toLowerCase() === 'colour') {
               const colorDot = document.createElement('span');
               colorDot.className = 'variant-color-dot';
-              
-              // Use dynamic color detection
               const detectedColor = getVariantColor(value);
               colorDot.style.backgroundColor = detectedColor;
               
-              // Add border for light colors
-              if (value.toLowerCase() === 'white' || 
-                  value.toLowerCase() === 'cream' || 
-                  value.toLowerCase() === 'ivory' ||
-                  value.toLowerCase() === 'beige') {
+              if (value.toLowerCase() === 'white' || value.toLowerCase() === 'cream' || 
+                  value.toLowerCase() === 'ivory' || value.toLowerCase() === 'beige') {
                 colorDot.style.border = '1px solid #ddd';
               }
               
@@ -758,16 +716,13 @@
             button.appendChild(textSpan);
             
             button.addEventListener('click', () => {
-              // Remove selected class from siblings
               optionsContainer.querySelectorAll('.variant-option').forEach(btn => {
                 btn.classList.remove('selected');
               });
-              // Add selected class to clicked button
               button.classList.add('selected');
               updateVariant(originalIndex, value);
             });
             
-            // Select first option by default
             if (value === option.values[0]) {
               button.classList.add('selected');
             }
@@ -783,21 +738,28 @@
     }
 
     function updateVariant(optionIndex, value) {
-      // Get current selections
       const selections = [];
       currentProduct.options.forEach((option, index) => {
         if (index === optionIndex) {
           selections[index] = value;
         } else if (option.name.toLowerCase() === 'size') {
-          const select = document.querySelector('.size-dropdown');
-          selections[index] = select.value;
+          const sizeButton = document.querySelector('.size-dropdown-button .selected-size');
+          const selectedText = sizeButton ? sizeButton.textContent : '';
+          selections[index] = selectedText !== 'Choose your size' ? selectedText : '';
         } else {
-          const selected = document.querySelector(`#variantOptions .variant-group:nth-child(${index + 1}) .variant-option.selected`);
-          selections[index] = selected ? selected.textContent.trim() : option.values[0];
+          const variantGroups = document.querySelectorAll('#variantOptions .variant-group');
+          if (variantGroups[index]) {
+            const selected = variantGroups[index].querySelector('.variant-option.selected');
+            if (selected) {
+              const textSpan = selected.querySelector('span:last-child') || selected;
+              selections[index] = textSpan.textContent.trim();
+            } else {
+              selections[index] = option.values[0];
+            }
+          }
         }
       });
 
-      // Find matching variant
       selectedVariant = currentProduct.variants.find(variant => {
         return selections.every((selection, index) => {
           const variantOption = variant[`option${index + 1}`];
@@ -837,16 +799,13 @@
       const button = document.getElementById('addToCartBtn');
       const originalText = button.querySelector('span').textContent;
       
-      // Show loading state
       button.classList.add('loading');
       button.querySelector('span').textContent = 'ADDING...';
       button.disabled = true;
 
       try {
-        // Add main product to cart
         await addToCart(selectedVariant.id, 1);
         
-        // Check if we need to add the "Soft Winter Jacket" automatically
         const needsJacket = checkForAutomaticJacket();
         if (needsJacket) {
           await addSoftWinterJacket();
@@ -870,18 +829,13 @@
     });
 
     function checkForAutomaticJacket() {
-      // Check if selected variant has Black color and Medium size
       const hasBlack = selectedVariant.option1 === 'Black' || selectedVariant.option2 === 'Black' || selectedVariant.option3 === 'Black';
       const hasMedium = selectedVariant.option1 === 'Medium' || selectedVariant.option2 === 'Medium' || selectedVariant.option3 === 'Medium';
-      
       return hasBlack && hasMedium;
     }
 
     async function addSoftWinterJacket() {
-      // You'll need to replace this with the actual variant ID of the "Soft Winter Jacket"
-      // This is a placeholder - you should set this to the correct variant ID
       const jacketVariantId = 'YOUR_JACKET_VARIANT_ID_HERE';
-      
       try {
         await addToCart(jacketVariantId, 1);
         console.log('Soft Winter Jacket added automatically');
@@ -908,6 +862,14 @@
 
       return response.json();
     }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const openDropdown = document.querySelector('.size-dropdown-container.open');
+      if (openDropdown && !openDropdown.contains(e.target)) {
+        openDropdown.classList.remove('open');
+      }
+    });
 
     // Close modal when clicking outside
     document.getElementById('quickViewModal').addEventListener('click', function(e) {
